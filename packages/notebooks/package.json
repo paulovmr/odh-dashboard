@@ -1,0 +1,47 @@
+{
+  "private": true,
+  "name": "@odh-dashboard/notebooks",
+  "description": "Notebooks plugin.",
+  "version": "0.0.0",
+  "scripts": {
+    "lint": "eslint .",
+    "type-check": "tsc --noEmit",
+    "update-subtree": "../../scripts/package-subtree.sh --package=@odh-dashboard/notebooks"
+  },
+  "subtree": {
+    "repo": "https://github.com/kubeflow/notebooks.git",
+    "src": "workspaces/frontend",
+    "target": "upstream",
+    "commit": "90618749738aa850a3e66a9343ef89510379bc90"
+  },
+  "module-federation": {
+    "name": "notebooks",
+    "remoteEntry": "/remoteEntry.js",
+    "authorize": true,
+    "tls": false,
+    "proxy": [
+      {
+        "path": "/workspaces/api",
+        "pathRewrite": "/api"
+      }
+    ],
+    "local": {
+      "host": "localhost",
+      "port": 9000
+    },
+    "service": {
+      "name": "odh-dashboard",
+      "port": 8043
+    }
+  },
+  "exports": {
+    "./extensions": "./extensions.ts"
+  },
+  "dependencies": {
+    "@odh-dashboard/internal": "*"
+  },
+  "devDependencies": {
+    "@odh-dashboard/eslint-config": "*",
+    "@odh-dashboard/tsconfig": "*"
+  }
+}
