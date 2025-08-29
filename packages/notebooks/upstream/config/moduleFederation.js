@@ -22,7 +22,6 @@ const moduleFederationConfig = {
   },
   exposes: {
     './extensions': './src/odh/extensions',
-    './extension-points': './src/odh/extension-points',
   },
   // For module federation to work when optimization.runtimeChunk="single":
   // See https://github.com/webpack/webpack/issues/18810
