@@ -410,6 +410,14 @@ const extensions: NavExtension[] = [
       },
     },
   },
+
+  {
+    type: 'app.navigation/section',
+    properties: {
+      id: 'notebooks',
+      title: 'Notebooks (KF)',
+    },
+  },
 ];
 
 export default extensions;
