@@ -9,7 +9,7 @@
     "update-subtree": "../../scripts/package-subtree.sh --package=@odh-dashboard/notebooks"
   },
   "subtree": {
-    "repo": "https://github.com/caponetto/kubeflow-notebooks.git",
+    "repo": "https://github.com/paulovmr/kubeflow-notebooks.git",
     "src": "workspaces/frontend",
     "target": "upstream",
     "commit": "75d73d9ffecf577402a54bbb341b750fda7b8f09"
