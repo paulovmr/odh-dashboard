@@ -32,19 +32,19 @@ dev-install-dependencies:
 
 .PHONY: dev-bff
 dev-bff:
-	cd bff && make run PORT=4000 MOCK_K8S_CLIENT=true MOCK_MR_CLIENT=true MOCK_MR_CATALOG_CLIENT=true DEV_MODE=true DEPLOYMENT_MODE=standalone 
+	cd bff && make run PORT=4000 MOCK_K8S_CLIENT=true MOCK_MR_CLIENT=true MOCK_MR_CATALOG_CLIENT=true DEV_MODE=true DEPLOYMENT_MODE=standalone
 
 .PHONY: dev-frontend
 dev-frontend:
 	cd frontend && DEPLOYMENT_MODE=standalone STYLE_THEME=mui-theme npm run start:dev
 
 .PHONY: dev-start
-dev-start: 
+dev-start:
 	make -j 2 dev-bff dev-frontend
 
 ########### Dev Kubeflow ############
 .PHONY: dev-start-kubeflow
-dev-start-kubeflow: 
+dev-start-kubeflow:
 	make -j 2 dev-bff-kubeflow dev-frontend-kubeflow
 
 .PHONY: dev-frontend-kubeflow
@@ -57,16 +57,16 @@ dev-bff-kubeflow:
 
 ########### Dev Federated ###########
 .PHONY: dev-start-federated
-dev-start-federated: 
+dev-start-federated:
 	make -j 2 dev-bff-federated dev-frontend-federated
 
 .PHONY: dev-frontend-federated
 dev-frontend-federated:
-	cd frontend && AUTH_METHOD=user_token DEPLOYMENT_MODE=federated STYLE_THEME=patternfly npm run start:dev
+	cd frontend && AUTH_METHOD=user_token PORT=9100 DEPLOYMENT_MODE=federated STYLE_THEME=patternfly npm run start:dev
 
 .PHONY: dev-bff-federated
 dev-bff-federated:
-	cd bff && make run PORT=4000 MOCK_K8S_CLIENT=false MOCK_MR_CLIENT=false MOCK_MR_CATALOG_CLIENT=false DEV_MODE=true DEPLOYMENT_MODE=federated DEV_MODE_MODEL_REGISTRY_PORT=8085 DEV_MODE_CATALOG_PORT=8086 AUTH_METHOD=user_token AUTH_TOKEN_HEADER=x-forwarded-access-token AUTH_TOKEN_PREFIX="" INSECURE_SKIP_VERIFY=true
+	cd bff && make run PORT=4001 MOCK_K8S_CLIENT=false MOCK_MR_CLIENT=false MOCK_MR_CATALOG_CLIENT=false DEV_MODE=true DEPLOYMENT_MODE=federated DEV_MODE_MODEL_REGISTRY_PORT=8085 DEV_MODE_CATALOG_PORT=8086 AUTH_METHOD=user_token AUTH_TOKEN_HEADER=x-forwarded-access-token AUTH_TOKEN_PREFIX="" INSECURE_SKIP_VERIFY=true
 
 ############ Build ############
 
@@ -118,7 +118,7 @@ kind-deployment:
 kubeflow-deployment:
 	./scripts/deploy_kubeflow_cluster.sh
 
-############ Build ############	
+############ Build ############
 .PHONY: frontend-build
 frontend-build:
 	cd frontend && DEPLOYMENT_MODE=kubeflow npm run build:prod
@@ -140,4 +140,3 @@ run-local-mocked: frontend-build-standalone bff-build
 	rm -r ./bff/static-local-run && cp -r ./frontend/dist/ ./bff/static-local-run/ && cd bff && make run STATIC_ASSETS_DIR=./static-local-run MOCK_K8S_CLIENT=true DEV_MODE=true
 
 
-	
