@@ -18,6 +18,7 @@ import {
 import { SecretModel } from '@odh-dashboard/k8s-core/api/models';
 import type { K8sResourceCommon, SecretKind } from '@odh-dashboard/k8s-core';
 import { DashboardNamespaceContext } from './DashboardNamespaceContext';
+import useTemplates from './useTemplates';
 
 const ProjectDetailsContext = React.createContext(null);
 const MODEL_SERVING_CONTEXT_VALUE = {
@@ -110,7 +111,8 @@ const createCoreApi = (dashboardNamespace: string): HostApiCoreServices => ({
       userTrackingEnabled: false,
       pvcSize: 0,
       cullerTimeout: 0,
-      modelServingPlatformEnabled: { kServe: true, LLMd: false },
+      modelServingPlatformEnabled: { kServe: true, LLMd: true },
+      isDistributedInferencingDefault: true,
     }),
   updateClusterSettings: () =>
     Promise.reject(new Error('Cluster settings are not configurable in the RHAII Tilt host.')),
@@ -129,7 +131,7 @@ const infraApi: HostApiInfraServices = {
 };
 
 const hostApi: HostApiServices = {
-  useTemplates: () => [[], true, undefined],
+  useTemplates,
   setProjectServingPlatform: (name) => Promise.resolve(name),
   useWatchConnectionTypes: () => [[], true, undefined, () => Promise.resolve([])],
   useServingConnections: () => [[], true, undefined, () => Promise.resolve([])],

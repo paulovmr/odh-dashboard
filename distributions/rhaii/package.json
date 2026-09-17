@@ -22,6 +22,7 @@
     "@odh-dashboard/analytics": "*",
     "@odh-dashboard/kserve": "*",
     "@odh-dashboard/k8s-core": "*",
+    "@odh-dashboard/llmd-serving": "*",
     "@odh-dashboard/model-serving": "*",
     "@odh-dashboard/plugin-core": "*",
     "@odh-dashboard/ui-core": "*",

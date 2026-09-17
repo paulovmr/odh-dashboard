@@ -83,9 +83,14 @@ local_resource(
     labels=["model-serving"],
 )
 
-# Track readiness of the externally-installed KServe controller.
+# Track readiness of the externally-installed KServe controllers.
 local_resource(
     "kserve-controller",
-    cmd="kubectl wait --for=condition=Available --timeout=120s -n kserve deployment/kserve-controller-manager",
+    cmd="kubectl wait --for=condition=Available --timeout=300s -n kserve deployment/kserve-controller-manager",
+    labels=["model-serving"],
+)
+local_resource(
+    "llmisvc-controller",
+    cmd="kubectl wait --for=condition=Available --timeout=300s -n kserve deployment/llmisvc-controller-manager",
     labels=["model-serving"],
 )

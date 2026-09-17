@@ -1,5 +1,5 @@
 name: rhaii
-productName: "Red Hat AI"
+productName: 'Red Hat AI'
 
 packages:
   local:
@@ -10,5 +10,10 @@ packages:
       extensionsPath: ./extensions
       featureFlags:
         kserve: true
+    - package: '@odh-dashboard/llmd-serving'
+      extensionsPath: ./extensions
+      featureFlags:
+        llmd-serving: true
+        vllm-on-maas: false
 
 featureFlags: {}

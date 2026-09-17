@@ -7,10 +7,7 @@ import { PluginStore as SdkPluginStore, PluginStoreProvider } from '@openshift/d
 import { AppInitSDK, isUtilsConfigSet, SDKReducers } from '@openshift/dynamic-plugin-sdk-utils';
 import { Bullseye, Spinner } from '@patternfly/react-core';
 
-const optionalMissingResources = [
-  '/apis/template.openshift.io/v1/namespaces/',
-  '/apis/infrastructure.opendatahub.io/v1/namespaces/',
-];
+const optionalMissingResources = ['/apis/infrastructure.opendatahub.io/v1/namespaces/'];
 
 const appFetch = async (url: string, options?: RequestInit): Promise<Response> => {
   const response = await fetch(`/api/k8s${url}`, options);
