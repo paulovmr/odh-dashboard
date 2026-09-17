@@ -18,6 +18,9 @@ import {
 import { SecretModel } from '@odh-dashboard/k8s-core/api/models';
 import type { K8sResourceCommon, SecretKind } from '@odh-dashboard/k8s-core';
 import { DashboardNamespaceContext } from './DashboardNamespaceContext';
+import TiltConnectionTypeFormFields, {
+  createTiltUriConnectionType,
+} from './TiltConnectionTypeFormFields';
 import useTemplates from './useTemplates';
 
 const ProjectDetailsContext = React.createContext(null);
@@ -130,21 +133,33 @@ const infraApi: HostApiInfraServices = {
   getDashboardPvcs: () => Promise.resolve([]),
 };
 
-const hostApi: HostApiServices = {
-  useTemplates,
-  setProjectServingPlatform: (name) => Promise.resolve(name),
-  useWatchConnectionTypes: () => [[], true, undefined, () => Promise.resolve([])],
-  useServingConnections: () => [[], true, undefined, () => Promise.resolve([])],
-  getDashboardConfigTemplateOrder: () => Promise.resolve([]),
-  getDashboardConfigTemplateDisablement: () => Promise.resolve([]),
-  isProjectNIMSupported: () => false,
-  createProject: unsupportedCreateProject,
-  ConnectionTypeFormFields: () => null,
-  contexts: {
-    ProjectDetailsContext,
-    ModelServingContext,
-    ModelServingContextProvider,
-  },
+const createHostApi = (dashboardNamespace: string): HostApiServices => {
+  const connectionTypes =
+    process.env.RHAII_TILT_FIXTURES === 'true'
+      ? [createTiltUriConnectionType(dashboardNamespace)]
+      : [];
+
+  return {
+    useTemplates,
+    setProjectServingPlatform: (name) => Promise.resolve(name),
+    useWatchConnectionTypes: () => [
+      connectionTypes,
+      true,
+      undefined,
+      () => Promise.resolve(connectionTypes),
+    ],
+    useServingConnections: () => [[], true, undefined, () => Promise.resolve([])],
+    getDashboardConfigTemplateOrder: () => Promise.resolve([]),
+    getDashboardConfigTemplateDisablement: () => Promise.resolve([]),
+    isProjectNIMSupported: () => false,
+    createProject: unsupportedCreateProject,
+    ConnectionTypeFormFields: TiltConnectionTypeFormFields,
+    contexts: {
+      ProjectDetailsContext,
+      ModelServingContext,
+      ModelServingContextProvider,
+    },
+  };
 };
 
 type HostApiProviderProps = {
@@ -155,6 +170,7 @@ type HostApiProviderProps = {
 const HostApiProvider: React.FC<HostApiProviderProps> = ({ children }) => {
   const dashboardNamespace = React.useContext(DashboardNamespaceContext);
   const coreApi = React.useMemo(() => createCoreApi(dashboardNamespace), [dashboardNamespace]);
+  const hostApi = React.useMemo(() => createHostApi(dashboardNamespace), [dashboardNamespace]);
 
   return (
     <HostApiCoreContext.Provider value={coreApi}>
