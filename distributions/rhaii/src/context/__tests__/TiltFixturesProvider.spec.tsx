@@ -7,10 +7,15 @@ const originalTiltFixtures = process.env.RHAII_TILT_FIXTURES;
 
 const HardwareProfilesLoaded: React.FC = () => {
   const {
-    globalHardwareProfiles: [, loaded],
+    globalHardwareProfiles: [profiles, loaded],
   } = React.useContext(HardwareProfilesContext);
 
-  return <span>{loaded ? 'loaded' : 'not loaded'}</span>;
+  return (
+    <span>
+      {loaded ? 'loaded' : 'not loaded'}:
+      {profiles.map((profile) => profile.metadata.name).join(',')}
+    </span>
+  );
 };
 
 afterEach(() => {
@@ -31,10 +36,10 @@ describe('TiltFixturesProvider', () => {
       </TiltFixturesProvider>,
     );
 
-    expect(screen.getByText('not loaded')).toBeDefined();
+    expect(screen.getByText('not loaded:')).toBeDefined();
   });
 
-  it('provides loaded empty hardware profiles in Tilt', () => {
+  it('provides a loaded default hardware profile in Tilt', () => {
     process.env.RHAII_TILT_FIXTURES = 'true';
 
     render(
@@ -43,6 +48,6 @@ describe('TiltFixturesProvider', () => {
       </TiltFixturesProvider>,
     );
 
-    expect(screen.getByText('loaded')).toBeDefined();
+    expect(screen.getByText('loaded:tilt-default')).toBeDefined();
   });
 });
