@@ -4,8 +4,8 @@ import {
   HardwareProfileFeatureVisibility,
 } from '@odh-dashboard/k8s-core';
 import { useDashboardNamespace } from '@odh-dashboard/plugin-core';
-import { HardwareProfilesContext } from '@odh-dashboard/internal/concepts/hardwareProfiles/HardwareProfilesContext';
 import { CurrentProjectContext } from '@odh-dashboard/ui-core/context/CurrentProjectContext';
+import { HardwareProfilesContext } from '@odh-dashboard/ui-core/context/HardwareProfilesContext';
 import { ProjectHardwareProfilesContext } from '@odh-dashboard/ui-core/context/ProjectHardwareProfilesContext';
 import { useWatchHardwareProfiles } from '@odh-dashboard/internal/utilities/useWatchHardwareProfiles';
 import { filterRecognizedVisibility, isHardwareProfileValid } from './utils';

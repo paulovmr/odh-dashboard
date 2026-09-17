@@ -11,6 +11,7 @@ import {
 import { DashboardNamespaceProvider } from './DashboardNamespaceContext';
 import HostApiProvider from './HostApiProvider';
 import ProjectsContextProvider from './ProjectsContextProvider';
+import TiltFixturesProvider from './TiltFixturesProvider';
 
 type RhaiiAppProviderProps = {
   children: React.ReactNode;
@@ -45,7 +46,9 @@ const RhaiiAppProvider: React.FC<RhaiiAppProviderProps> = ({ children }) => (
     <AreaContext.Provider value={areaContextValue}>
       <DashboardNamespaceProvider>
         <ProjectsContextProvider>
-          <HostApiProvider>{children}</HostApiProvider>
+          <TiltFixturesProvider>
+            <HostApiProvider>{children}</HostApiProvider>
+          </TiltFixturesProvider>
         </ProjectsContextProvider>
       </DashboardNamespaceProvider>
     </AreaContext.Provider>

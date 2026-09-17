@@ -50,6 +50,7 @@ const sharedOdhContextModules = [
   '@odh-dashboard/plugin-core/areas',
   '@odh-dashboard/plugin-core/host-api',
   '@odh-dashboard/plugin-core/integrations',
+  '@odh-dashboard/ui-core/context/HardwareProfilesContext',
 ];
 
 /**
