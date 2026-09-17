@@ -46,6 +46,12 @@ export type ModuleFederationPluginClass<TCompiler> = new (config: ModuleFederati
   apply(compiler: TCompiler): void;
 };
 
+const sharedOdhContextModules = [
+  '@odh-dashboard/plugin-core/areas',
+  '@odh-dashboard/plugin-core/host-api',
+  '@odh-dashboard/plugin-core/integrations',
+];
+
 /**
  * Shared Module Federation logic for host and remote builds. Bundler-specific
  * subclasses return their ModuleFederationPlugin class (webpack or rspack) via
@@ -109,14 +115,16 @@ abstract class BaseOdhFederationPlugin<TCompiler extends FederationCompiler> {
         ...(!isHost && hostProvided.has(pkgName) && { import: false }),
       };
       shared[pkgName] = config;
-      // The exact package key does not match package export subpaths. Share the
-      // trailing-slash prefix too so contexts imported from e.g. /host-api are
-      // the same instances in the host and its federated remotes. Remotes keep
-      // a fallback because the host does not necessarily import and provide
-      // every subpath used by a remote.
-      shared[`${pkgName}/`] = {
+    }
+
+    // Package-root sharing does not match export subpaths. These modules expose
+    // React contexts and must resolve to the host's instances. Keep this list
+    // exact: remotes may depend on other ODH subpaths the host does not provide.
+    for (const moduleName of sharedOdhContextModules) {
+      shared[moduleName] = {
         singleton: true,
         requiredVersion: '*',
+        ...(!isHost && { import: false }),
       };
     }
 
