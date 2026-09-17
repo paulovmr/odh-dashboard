@@ -111,8 +111,13 @@ abstract class BaseOdhFederationPlugin<TCompiler extends FederationCompiler> {
       shared[pkgName] = config;
       // The exact package key does not match package export subpaths. Share the
       // trailing-slash prefix too so contexts imported from e.g. /host-api are
-      // the same instances in the host and its federated remotes.
-      shared[`${pkgName}/`] = config;
+      // the same instances in the host and its federated remotes. Remotes keep
+      // a fallback because the host does not necessarily import and provide
+      // every subpath used by a remote.
+      shared[`${pkgName}/`] = {
+        singleton: true,
+        requiredVersion: '*',
+      };
     }
 
     // Plugin-defined shared modules take precedence over additionalShared entries

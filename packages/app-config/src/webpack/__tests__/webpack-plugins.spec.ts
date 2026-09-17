@@ -306,7 +306,6 @@ describe('OdhFederationPlugin share policy', () => {
     expect(lastConfig?.shared['@odh-dashboard/plugin-core/']).toEqual({
       singleton: true,
       requiredVersion: '*',
-      import: false,
     });
     expect(lastConfig?.shared['@odh-dashboard/maas'].import).toBeUndefined();
     expect(lastConfig?.shared['@patternfly/react-table'].import).toBeUndefined();
