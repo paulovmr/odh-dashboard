@@ -275,6 +275,10 @@ describe('OdhFederationPlugin share policy', () => {
     expect(lastConfig?.shared.react.import).toBeUndefined();
     expect(lastConfig?.shared['react-dom']).toBeUndefined();
     expect(lastConfig?.shared['@odh-dashboard/internal'].import).toBeUndefined();
+    expect(lastConfig?.shared['@odh-dashboard/plugin-core/']).toEqual({
+      singleton: true,
+      requiredVersion: '*',
+    });
     expect(lastConfig?.shared['@patternfly/react-table'].eager).toBeUndefined();
   });
 
@@ -299,6 +303,11 @@ describe('OdhFederationPlugin share policy', () => {
     expect(lastConfig?.shared['@odh-dashboard/internal']).toEqual(
       expect.objectContaining({ singleton: true, requiredVersion: '*', import: false }),
     );
+    expect(lastConfig?.shared['@odh-dashboard/plugin-core/']).toEqual({
+      singleton: true,
+      requiredVersion: '*',
+      import: false,
+    });
     expect(lastConfig?.shared['@odh-dashboard/maas'].import).toBeUndefined();
     expect(lastConfig?.shared['@patternfly/react-table'].import).toBeUndefined();
   });

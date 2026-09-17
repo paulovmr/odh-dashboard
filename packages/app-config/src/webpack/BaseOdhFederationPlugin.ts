@@ -103,11 +103,16 @@ abstract class BaseOdhFederationPlugin<TCompiler extends FederationCompiler> {
 
     const { all: odhPackages, hostProvided } = getRuntimeOdhPackages();
     for (const pkgName of odhPackages) {
-      shared[pkgName] = {
+      const config: SharedModuleConfig = {
         singleton: true,
         requiredVersion: '*',
         ...(!isHost && hostProvided.has(pkgName) && { import: false }),
       };
+      shared[pkgName] = config;
+      // The exact package key does not match package export subpaths. Share the
+      // trailing-slash prefix too so contexts imported from e.g. /host-api are
+      // the same instances in the host and its federated remotes.
+      shared[`${pkgName}/`] = config;
     }
 
     // Plugin-defined shared modules take precedence over additionalShared entries
