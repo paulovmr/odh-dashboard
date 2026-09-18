@@ -32,6 +32,13 @@ export const ServiceAccountModel: K8sModelCommon = {
   plural: 'serviceaccounts',
 };
 
+export const HardwareProfileModel: K8sModelCommon = {
+  apiVersion: 'v1',
+  apiGroup: 'infrastructure.opendatahub.io',
+  kind: 'HardwareProfile',
+  plural: 'hardwareprofiles',
+};
+
 export const ClusterQueueModel: K8sModelCommon = {
   apiVersion: 'v1beta2',
   apiGroup: 'kueue.x-k8s.io',

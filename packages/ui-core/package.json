@@ -128,6 +128,7 @@
   },
   "peerDependencies": {
     "@odh-dashboard/plugin-core": "*",
+    "@openshift/dynamic-plugin-sdk-utils": "^5",
     "@patternfly/react-core": "^6",
     "@patternfly/react-icons": "^6",
     "@patternfly/react-styles": "^6",

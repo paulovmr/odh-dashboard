@@ -9,9 +9,9 @@ import {
   type IsAreaAvailableStatus,
 } from '@odh-dashboard/plugin-core/areas';
 import { DashboardNamespaceProvider } from './DashboardNamespaceContext';
+import HardwareProfilesContextProvider from './HardwareProfilesContextProvider';
 import HostApiProvider from './HostApiProvider';
 import ProjectsContextProvider from './ProjectsContextProvider';
-import TiltFixturesProvider from './TiltFixturesProvider';
 
 type RhaiiAppProviderProps = {
   children: React.ReactNode;
@@ -45,11 +45,11 @@ const RhaiiAppProvider: React.FC<RhaiiAppProviderProps> = ({ children }) => (
   <IntegrationsContext.Provider value={integrationsContextValue}>
     <AreaContext.Provider value={areaContextValue}>
       <DashboardNamespaceProvider>
-        <ProjectsContextProvider>
-          <TiltFixturesProvider>
+        <HardwareProfilesContextProvider>
+          <ProjectsContextProvider>
             <HostApiProvider>{children}</HostApiProvider>
-          </TiltFixturesProvider>
-        </ProjectsContextProvider>
+          </ProjectsContextProvider>
+        </HardwareProfilesContextProvider>
       </DashboardNamespaceProvider>
     </AreaContext.Provider>
   </IntegrationsContext.Provider>
